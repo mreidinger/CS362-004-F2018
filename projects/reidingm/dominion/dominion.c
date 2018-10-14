@@ -653,7 +653,8 @@ void adventurerFact(int currentPlayer, int temphand[], int drawntreasure, int z,
 
 	int cardDrawn;
 
-	while(drawntreasure<2)
+	// Bug drawntreasure<2 changed to drawntreasure<1
+	while(drawntreasure<1)
 	{
 		if (state->deckCount[currentPlayer] <1)
 		{//if the deck is empty we need to shuffle discard and add to deck
@@ -688,7 +689,8 @@ void smithyFact(int currentPlayer, int handPos, struct gameState *state)
 {
 	int i;
 	//+3 Cards
-	for (i = 0; i < 3; i++)
+	//Bug +2 Cards for (i = 0; i < 3; i++) to for (i = 0; i < 2; i++)
+	for (i = 0; i < 2; i++)
 	{
 		drawCard(currentPlayer, state);
 	}
@@ -707,6 +709,9 @@ void great_hallFact(int currentPlayer, int handPos, struct gameState *state)
 	drawCard(currentPlayer, state);
 
 	//+1 Actions
+	//Bug +3 Actions from +1
+	state->numActions++;
+	state->numActions++;
 	state->numActions++;
 
 	//discard card from hand
@@ -718,6 +723,9 @@ void great_hallFact(int currentPlayer, int handPos, struct gameState *state)
 void salvagerFact(int currentPlayer, int handPos, int choice1, struct gameState *state)
 {
 	//+1 buy
+	//Bug +3 Buys from +1
+	state->numBuys++;
+	state->numBuys++;
 	state->numBuys++;
 
 	if (choice1)
