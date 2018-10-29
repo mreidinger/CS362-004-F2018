@@ -1,0 +1,222 @@
+        -:    0:Source:cardtest1.c
+        -:    0:Graph:cardtest1.gcno
+        -:    0:Data:cardtest1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * cardtest4.c
+        -:    3: *
+        -:    4: 
+        -:    5: */
+        -:    6:
+        -:    7:/*
+        -:    8: * Include the following lines in your makefile:
+        -:    9: *
+        -:   10: * cardtest4: cardtest4.c dominion.o rngs.o
+        -:   11: *      gcc -o cardtest1 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
+        -:   12: */
+        -:   13:
+        -:   14:
+        -:   15:#include "dominion.h"
+        -:   16:#include "dominion_helpers.h"
+        -:   17:#include <string.h>
+        -:   18:#include <stdio.h>
+        -:   19:#include <assert.h>
+        -:   20:#include "rngs.h"
+        -:   21:#include <stdlib.h>
+        -:   22:
+        -:   23:
+        -:   24:
+function main called 1 returned 100% blocks executed 80%
+        1:   25:int main() {
+        -:   26:	//initilization variables from example
+        -:   27:	int i, testResult, startCard, endCard;
+        1:   28:	int seed = 1000;
+        1:   29:	int numPlayer = 2;
+        1:   30:	int handPos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0, startTreasure = 0, endTreasure = 0, kingdomChange = 0;
+        -:   31:	struct gameState testGame, testGameStart;
+        1:   32:	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
+        -:   33:			sea_hag, tribute, smithy, council_room};
+        -:   34:
+        -:   35:	// initialize a game state and player cards
+        1:   36:	memset(&testGame, 23, sizeof(struct gameState));   // clear the game state
+        1:   37:	memset(&testGameStart, 23, sizeof(struct gameState));   // clear the game state
+        1:   38:	initializeGame(numPlayer, k, seed, &testGame);
+call    0 returned 100%
+        1:   39:	memcpy(&testGameStart, &testGame, sizeof(struct gameState)); //backup state for comparison
+        -:   40:	
+        -:   41:	// Count total Treasure in hand before adventurer
+        6:   42:	for (i = 0; i < testGameStart.handCount[0]; i++)
+branch  0 taken 83%
+branch  1 taken 17% (fallthrough)
+        -:   43:	{
+        5:   44:		startCard = testGameStart.hand[0][i];
+        5:   45:		if (startCard == copper || startCard == silver || startCard == gold)
+branch  0 taken 20% (fallthrough)
+branch  1 taken 80%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+        4:   46:			startTreasure++;
+        -:   47:	}
+        -:   48:	
+        1:   49:	cardEffect(adventurer, choice1, choice2, choice3, &testGame, handPos, &bonus);
+call    0 returned 100%
+        -:   50:
+        -:   51:	// Count total Treasure in hand after adventurer
+        7:   52:	for (i = 0; i < testGame.handCount[0]; i++)
+branch  0 taken 86%
+branch  1 taken 14% (fallthrough)
+        -:   53:	{
+        6:   54:		endCard = testGame.hand[0][i];
+        6:   55:		if (endCard == copper || endCard == silver || endCard == gold)
+branch  0 taken 17% (fallthrough)
+branch  1 taken 83%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+branch  4 taken 0% (fallthrough)
+branch  5 taken 100%
+        5:   56:			endTreasure++;
+        -:   57:	}
+        -:   58:
+        1:   59:	printf("TESTING adventurer:\n");
+call    0 returned 100%
+        -:   60:
+        -:   61:	// Test that two cards were drawn
+        1:   62:	if (testGameStart.handCount[0] + 2 == testGame.handCount[0])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   63:	{
+    #####:   64:		printf("TEST Player 0 Draw Two Cards PASSED:\n");
+call    0 never executed
+        -:   65:	}
+        -:   66:	else
+        -:   67:	{
+        1:   68:		printf("TEST Player 0 Draw Two Cards FAILED:\n");
+call    0 returned 100%
+        -:   69:	}
+        -:   70:
+        -:   71:	// Test that two cards drawn were treasure
+        1:   72:	if (startTreasure + 2 == endTreasure)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   73:	{
+    #####:   74:		printf("TEST Player 0 Draw Two Treasure PASSED:\n");
+call    0 never executed
+        -:   75:	}
+        -:   76:	else
+        -:   77:	{
+        1:   78:		printf("TEST Player 0 Draw Two Treasure FAILED:\n");
+call    0 returned 100%
+        -:   79:	}
+        -:   80:
+        -:   81:	//Check Player 1 for change
+        1:   82:	if (testGameStart.handCount[1] == testGame.handCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   83:	{
+        1:   84:		printf("TEST Player 1 Hand PASSED:\n");
+call    0 returned 100%
+        -:   85:	}
+        -:   86:	else
+        -:   87:	{
+    #####:   88:		printf("TEST Player 1 Hand FAILED:\n");
+call    0 never executed
+        -:   89:	}
+        -:   90:
+        1:   91:	if (testGameStart.deckCount[1] == testGame.deckCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   92:	{
+        1:   93:		printf("TEST Player 1 Deck PASSED:\n");
+call    0 returned 100%
+        -:   94:	}
+        -:   95:	else
+        -:   96:	{
+    #####:   97:		printf("TEST Player 1 Deck FAILED:\n");
+call    0 never executed
+        -:   98:	}
+        -:   99:
+        1:  100:	if (testGameStart.discardCount[1] == testGame.discardCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  101:	{
+        1:  102:		printf("TEST Player 1 Discard PASSED:\n");
+call    0 returned 100%
+        -:  103:	}
+        -:  104:	else
+        -:  105:	{
+    #####:  106:		printf("TEST Player 1 Discard FAILED:\n");
+call    0 never executed
+        -:  107:	}
+        -:  108:
+        -:  109:	// Check Victory and Kingdom Piles
+        1:  110:	if (testGameStart.supplyCount[estate] == testGame.supplyCount[estate])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  111:	{
+        1:  112:		printf("TEST Estate Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  113:	}
+        -:  114:	else
+        -:  115:	{
+    #####:  116:		printf("TEST Estate Unchanged FAILED:\n");
+call    0 never executed
+        -:  117:	}
+        -:  118:
+        1:  119:	if (testGameStart.supplyCount[duchy] == testGame.supplyCount[duchy])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  120:	{
+        1:  121:		printf("TEST Duchy Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  122:	}
+        -:  123:	else
+        -:  124:	{
+    #####:  125:		printf("TEST Duchy Unchanged FAILED:\n");
+call    0 never executed
+        -:  126:	}
+        -:  127:
+        1:  128:	if (testGameStart.supplyCount[province] == testGame.supplyCount[province])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  129:	{
+        1:  130:		printf("TEST Province Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  131:	}
+        -:  132:	else
+        -:  133:	{
+    #####:  134:		printf("TEST Province Unchanged FAILED:\n");
+call    0 never executed
+        -:  135:	}
+        -:  136:
+       11:  137:	for (i = 0; i < 10; i++)
+branch  0 taken 91%
+branch  1 taken 9% (fallthrough)
+        -:  138:	{
+       10:  139:		if (testGameStart.supplyCount[k[i]] != testGame.supplyCount[k[i]])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  140:		{
+    #####:  141:			kingdomChange++;
+        -:  142:		}
+        -:  143:	}
+        -:  144:
+        1:  145:	if (kingdomChange == 0)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  146:	{
+        1:  147:		printf("TEST Kingdom Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  148:	}
+        -:  149:	else
+        -:  150:	{
+    #####:  151:		printf("TEST Kingdom Unchanged FAILED:\n");
+call    0 never executed
+        -:  152:	}
+        -:  153:
+        1:  154:	return 0;
+        -:  155:}
+        -:  156:
+        -:  157:
