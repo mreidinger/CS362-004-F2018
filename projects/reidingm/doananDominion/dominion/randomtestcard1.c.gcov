@@ -1,0 +1,302 @@
+        -:    0:Source:randomtestcard1.c
+        -:    0:Graph:randomtestcard1.gcno
+        -:    0:Data:randomtestcard1.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * cardtest4.c
+        -:    3: *
+        -:    4: 
+        -:    5: */
+        -:    6:
+        -:    7:/*
+        -:    8: * Include the following lines in your makefile:
+        -:    9: *
+        -:   10: * cardtest4: cardtest4.c dominion.o rngs.o
+        -:   11: *      gcc -o cardtest1 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
+        -:   12: */
+        -:   13:
+        -:   14:
+        -:   15:#include "dominion.h"
+        -:   16:#include "dominion_helpers.h"
+        -:   17:#include <string.h>
+        -:   18:#include <stdio.h>
+        -:   19:#include <assert.h>
+        -:   20:#include "rngs.h"
+        -:   21:#include <stdlib.h>
+        -:   22:#include <time.h>
+        -:   23:#include <math.h>
+        -:   24:
+        -:   25:
+function main called 1 returned 100% blocks executed 86%
+        1:   26:int main() {
+        -:   27:	//initilization variables from example
+        -:   28:	int i, j, m, l, n, testResult, startCard, endCard;
+        -:   29:	int randDeck, randDis, randHand, randPlayed;
+        -:   30:	int startVal;
+        -:   31:
+        1:   32:	int handPos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0, startTreasure = 0, endTreasure = 0, kingdomChange = 0;
+        -:   33:
+        -:   34:	// fail counter variables
+        1:   35:	int drawThreeFail = 0, threeOwnFail = 0, wasDiscardFail = 0, otherHandFail = 0, otherDeckFail = 0, otherDiscardFail = 0;
+        1:   36:	int dutchyFail = 0, kingdomFail = 0, estateFail = 0, provinceFail = 0, noFails = 0;
+        1:   37:	int handFlag = 0, deckFlag = 0, discardFlag = 0;
+        -:   38:
+        1:   39:	SelectStream(2);
+call    0 returned 100%
+        1:   40:	PutSeed(3);
+call    0 returned 100%
+        -:   41:
+        1:   42:	int numOfPlayers = 2;
+        -:   43:
+        -:   44:	struct gameState testGame, testGameStart;
+        1:   45:	int k[10] = { adventurer, embargo, village, minion, mine, cutpurse,
+        -:   46:		sea_hag, tribute, smithy, council_room };
+        -:   47:
+        1:   48:	printf("TESTING random smithy:\n");
+call    0 returned 100%
+        -:   49:
+        -:   50:	// initilize a random testing array for testing the adventurer card
+     8001:   51:	for (j = 0; j < 8000; j++)
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+        -:   52:	{
+210408000:   53:		for (i = 0; i < sizeof(struct gameState); i++)
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+        -:   54:		{
+210400000:   55:			startVal = floor(Random() * 256);
+call    0 returned 100%
+210400000:   56:			((char*)&testGame)[i] = startVal; // borrowed from betterTestDrawCard example
+210400000:   57:			((char*)&testGameStart)[i] = startVal;
+        -:   58:
+        -:   59:		}
+        -:   60://				printf("TESTING int done:\n");
+        -:   61:
+        -:   62:		//reset counting variables
+     8000:   63:		handPos = 0, choice1 = 0, choice2 = 0, choice3 = 0, bonus = 0, startTreasure = 0, endTreasure = 0, kingdomChange = 0;
+     8000:   64:		handFlag = 0, deckFlag = 0, discardFlag = 0;
+        -:   65:
+        -:   66:		// chose a random number of players ensuring there is enough to play the game
+     8000:   67:		numOfPlayers = rand() % 5;
+call    0 returned 100%
+     8000:   68:		if (numOfPlayers < 2)
+branch  0 taken 40% (fallthrough)
+branch  1 taken 60%
+        -:   69:		{
+     3211:   70:			numOfPlayers = 2;
+        -:   71:		}
+        -:   72:
+        -:   73://				printf("TESTING players done:\n");
+        -:   74:
+        -:   75:		//choose random values for all used play counts
+     8000:   76:		randDeck = floor(Random() * MAX_DECK); // modeled from betterTestDrawCard example
+call    0 returned 100%
+     8000:   77:		if (randDeck < 10)
+branch  0 taken 2% (fallthrough)
+branch  1 taken 98%
+        -:   78:		{
+      156:   79:			randDeck = 10;
+        -:   80:		}
+     8000:   81:		randDis = floor(Random() * MAX_DECK);
+call    0 returned 100%
+     8000:   82:		randHand = floor(Random() * MAX_HAND);
+call    0 returned 100%
+     8000:   83:		randPlayed = floor(Random() * (MAX_DECK -1 ));
+call    0 returned 100%
+        -:   84:		// assign the random values to each player
+    28782:   85:		for (m = 0; m < numOfPlayers; m++)
+branch  0 taken 72%
+branch  1 taken 28% (fallthrough)
+        -:   86:		{
+    20782:   87:			testGame.deckCount[m] = randDeck;
+    20782:   88:			testGameStart.deckCount[m] = randDeck;
+    20782:   89:			testGame.discardCount[m] = randDis;
+    20782:   90:			testGameStart.discardCount[m] = randDis;
+    20782:   91:			testGame.handCount[m] = randHand;
+    20782:   92:			testGameStart.handCount[m] = randHand;
+        -:   93:		}
+        -:   94:
+    28782:   95:		for (i = 0; i < numOfPlayers; i++)
+branch  0 taken 72%
+branch  1 taken 28% (fallthrough)
+        -:   96:		{
+    83128:   97:			for (n = 0; n < 3; n++)
+branch  0 taken 75%
+branch  1 taken 25% (fallthrough)
+        -:   98:			{
+    62346:   99:				testGame.deck[i][n] = copper;
+    62346:  100:				testGameStart.deck[i][n] = copper;
+        -:  101:			}
+        -:  102:
+  5211334:  103:			for (n = 3; n < randDeck; n++)
+branch  0 taken 99%
+branch  1 taken 1% (fallthrough)
+        -:  104:			{
+  5190552:  105:				testGame.deck[i][n] = estate;
+  5190552:  106:				testGameStart.deck[i][n] = estate;
+        -:  107:			}
+        -:  108:		}
+        -:  109:
+     8000:  110:		testGame.playedCardCount = randPlayed;
+     8000:  111:		testGameStart.playedCardCount = randPlayed;
+     8000:  112:		testGame.whoseTurn = 0;
+     8000:  113:		testGameStart.whoseTurn = 0;
+        -:  114:
+        -:  115://	printf("TESTING precard done:\n");
+        -:  116:
+     8000:  117:	cardEffect(smithy, choice1, choice2, choice3, &testGame, handPos, &bonus);
+call    0 returned 100%
+        -:  118:
+        -:  119:
+        -:  120://	printf("TESTING postcard:\n");
+        -:  121:
+        -:  122:	// Test that three cards were drawn
+     8000:  123:	if (testGameStart.handCount[0] + 2 != testGame.handCount[0])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  124:	{
+        -:  125:	//	printf("TEST Player 0 Draw Two Cards FAILED:\n");
+     8000:  126:		drawThreeFail++;
+        -:  127:	}
+        -:  128:
+        -:  129:	// Test that three cards drawn were from own deck
+     8000:  130:	if (testGameStart.deckCount[0] != testGame.deckCount[0] + 3)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  131:	{
+        -:  132://		printf("TEST Player 0 Draw 3 From Own Deck FAILED:\n");
+     8000:  133:		threeOwnFail++;
+        -:  134:	}
+        -:  135:
+        -:  136:	// Test that card was discarded
+     8000:  137:	if (testGameStart.playedCardCount + 1 != testGame.playedCardCount)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  138:	{
+        -:  139://		printf("TEST Player 0 Smithy Played FAILED:\n");
+    #####:  140:		wasDiscardFail++;
+        -:  141:	}
+        -:  142:
+        -:  143:	//check other players for improper changes
+    20782:  144:	for (l = 1; l <numOfPlayers; l++)
+branch  0 taken 62%
+branch  1 taken 38% (fallthrough)
+        -:  145:	{
+        -:  146:		//Check Player 1 for change
+    12782:  147:		if (testGameStart.handCount[l] != testGame.handCount[l])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  148:		{
+        -:  149:			//	printf("TEST Player 1 Hand FAILED:\n");
+    #####:  150:			handFlag = 1;
+        -:  151:		}
+        -:  152:
+    12782:  153:		if (testGameStart.deckCount[l] != testGame.deckCount[l])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  154:		{
+        -:  155:			//	printf("TEST Player 1 Deck FAILED:\n");
+    #####:  156:			deckFlag = 1;
+        -:  157:		}
+        -:  158:
+    12782:  159:		if (testGameStart.discardCount[l] != testGame.discardCount[l])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  160:		{
+        -:  161:			//	printf("TEST Player 1 Discard FAILED:\n");
+    #####:  162:			discardFlag = 1;
+        -:  163:		}
+        -:  164:	}
+        -:  165:
+        -:  166:	//add changes to failure totals
+     8000:  167:	otherHandFail = otherHandFail + handFlag;
+     8000:  168:	otherDeckFail = otherDeckFail + deckFlag;
+     8000:  169:	otherDiscardFail = otherDiscardFail + discardFlag;
+        -:  170:
+        -:  171:	// Check Victory and Kingdom Piles
+     8000:  172:	if (testGameStart.supplyCount[estate] != testGame.supplyCount[estate])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  173:	{
+        -:  174:		//	printf("TEST Estate Unchanged FAILED:\n");
+    #####:  175:		estateFail++;
+        -:  176:	}
+        -:  177:
+     8000:  178:	if (testGameStart.supplyCount[duchy] != testGame.supplyCount[duchy])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  179:	{
+        -:  180:		//	printf("TEST Duchy Unchanged FAILED:\n");
+    #####:  181:		dutchyFail++;
+        -:  182:	}
+        -:  183:
+     8000:  184:	if (testGameStart.supplyCount[province] != testGame.supplyCount[province])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  185:	{
+        -:  186:		//	printf("TEST Province Unchanged FAILED:\n");
+    #####:  187:		provinceFail++;
+        -:  188:	}
+        -:  189:
+    88000:  190:	for (i = 0; i < 10; i++)
+branch  0 taken 91%
+branch  1 taken 9% (fallthrough)
+        -:  191:	{
+    80000:  192:		if (testGameStart.supplyCount[k[i]] != testGame.supplyCount[k[i]])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  193:		{
+    #####:  194:			kingdomChange++;
+        -:  195:		}
+        -:  196:	}
+        -:  197:
+     8000:  198:	if (kingdomChange != 0)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  199:	{
+        -:  200:		//	printf("TEST Kingdom Unchanged FAILED:\n");
+    #####:  201:		kingdomFail++;
+        -:  202:	}
+        -:  203:
+        -:  204:	}
+        -:  205:
+        1:  206:	noFails = drawThreeFail + threeOwnFail + wasDiscardFail + otherHandFail + otherDeckFail + otherDiscardFail + dutchyFail + kingdomFail + estateFail + provinceFail;
+        -:  207:
+        1:  208:	if (noFails == 0)
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  209:	{
+    #####:  210:		printf("All Tests Successful:\n");
+call    0 never executed
+        -:  211:	}
+        -:  212:
+        -:  213:	else
+        -:  214:	{
+        1:  215:		printf("TEST Player 0 Draw Three Cards FAILED: %d\n", drawThreeFail);
+call    0 returned 100%
+        1:  216:		printf("TEST Player 0 Draw 3 From Own Deck FAILED: %d\n", threeOwnFail);
+call    0 returned 100%
+        1:  217:		printf("TEST Player 0 Smithy Played FAILED: %d\n", wasDiscardFail);
+call    0 returned 100%
+        1:  218:		printf("TEST Other Players Hand FAILED: %d\n", otherHandFail);
+call    0 returned 100%
+        1:  219:		printf("TEST Other Players Deck FAILED:\n", otherDeckFail);
+call    0 returned 100%
+        1:  220:		printf("TEST Other Players Discard FAILED:\n", otherDiscardFail);
+call    0 returned 100%
+        1:  221:		printf("TEST Estate Unchanged FAILED: %d\n", estateFail);
+call    0 returned 100%
+        1:  222:		printf("TEST Duchy Unchanged FAILED: %d\n", dutchyFail);
+call    0 returned 100%
+        1:  223:		printf("TEST Province Unchanged FAILED: %d\n", provinceFail);
+call    0 returned 100%
+        1:  224:		printf("TEST Kingdom Unchanged FAILED: %d\n\n", kingdomFail);
+call    0 returned 100%
+        -:  225:	}
+        -:  226:	
+        -:  227:
+        1:  228:	return 0;
+        -:  229:}
+        -:  230:
+        -:  231:

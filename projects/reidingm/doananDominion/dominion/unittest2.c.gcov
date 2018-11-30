@@ -1,0 +1,185 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/* -----------------------------------------------------------------------
+        -:    2: * Demonstration of how to write unit tests for dominion-base
+        -:    3: * Include the following lines in your makefile:
+        -:    4: *
+        -:    5: * testUpdateCoins: testUpdateCoins.c dominion.o rngs.o
+        -:    6: *      gcc -o testUpdateCoins -g  testUpdateCoins.c dominion.o rngs.o $(CFLAGS)
+        -:    7: * -----------------------------------------------------------------------
+        -:    8: */
+        -:    9:
+        -:   10:#include "dominion.h"
+        -:   11:#include "dominion_helpers.h"
+        -:   12:#include <string.h>
+        -:   13:#include <stdio.h>
+        -:   14:#include <assert.h>
+        -:   15:#include "rngs.h"
+        -:   16:
+        -:   17:
+function main called 1 returned 100% blocks executed 75%
+        1:   18:int main() {
+        -:   19:
+        -:   20:	//initilization variables from example
+        -:   21:	int i, testResult;
+        1:   22:	int seed = 1000;
+        1:   23:	int numPlayer = 2;
+        1:   24:	int k[10] = { adventurer, council_room, feast, gardens, mine
+        -:   25:		, remodel, smithy, village, baron, great_hall };
+        -:   26:	struct gameState testGame;
+        -:   27:
+        1:   28:	memset(&testGame, 23, sizeof(struct gameState));   // clear the game state
+        1:   29:	initializeGame(numPlayer, k, seed, &testGame); // initialize a new game
+call    0 returned 100%
+        -:   30:
+        -:   31:	int p0Disc, p1Disc, p0Hand, p1Hand, p0Deck, p1Deck, tempSupply, emptySupply;
+        -:   32:
+        1:   33:	p0Disc = testGame.discardCount[0];
+        1:   34:	p1Disc = testGame.discardCount[1];
+        1:   35:	p0Hand = testGame.handCount[0];
+        1:   36:	p1Hand = testGame.handCount[1];
+        1:   37:	p0Deck = testGame.deckCount[0];
+        1:   38:	p1Deck = testGame.deckCount[1];
+        1:   39:	testGame.supplyCount[copper] = 25;
+        1:   40:	tempSupply = testGame.supplyCount[copper];
+        -:   41:
+        1:   42:    printf ("TESTING gainCard():\n");
+call    0 returned 100%
+        -:   43:	
+        -:   44:	//Test gain card to discard pile
+        1:   45:	gainCard(copper, &testGame, 0, 0);
+call    0 returned 100%
+        -:   46:
+        1:   47:	if (p0Disc == testGame.discardCount[0] - 1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   48:	{
+        1:   49:		printf("TEST Player 0 Discard PASSED:\n");
+call    0 returned 100%
+        -:   50:	}
+        -:   51:	
+        -:   52:	else
+        -:   53:	{
+    #####:   54:		printf("TEST Player 0 Discard FAILED:\n");
+call    0 never executed
+        -:   55:	}
+        -:   56:
+        -:   57:	//Test to ensure the proper pile was impacted
+        1:   58:	if (p1Disc == testGame.discardCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   59:	{
+        1:   60:		printf("TEST Correct Discard PASSED:\n");
+call    0 returned 100%
+        -:   61:	}
+        -:   62:
+        -:   63:	else
+        -:   64:	{
+    #####:   65:		printf("TEST Correct Discard FAILED:\n");
+call    0 never executed
+        -:   66:	}
+        -:   67:
+        -:   68:	//Test to check supply reduced correctly
+        1:   69:	if (tempSupply == testGame.supplyCount[copper] + 1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   70:	{
+        1:   71:		printf("TEST Correct Supply Reduced PASSED:\n");
+call    0 returned 100%
+        -:   72:	}
+        -:   73:
+        -:   74:	else
+        -:   75:	{
+    #####:   76:		printf("TEST Correct Supply Reduced FAILED:\n");
+call    0 never executed
+        -:   77:	}
+        -:   78:
+        -:   79:	//Test gain card to deck pile
+        1:   80:	gainCard(copper, &testGame, 1, 0);
+call    0 returned 100%
+        -:   81:
+        1:   82:	if (p0Deck == testGame.deckCount[0] - 1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   83:	{
+        1:   84:		printf("TEST Player 0 Deck PASSED:\n");
+call    0 returned 100%
+        -:   85:	}
+        -:   86:
+        -:   87:	else
+        -:   88:	{
+    #####:   89:		printf("TEST Player 0 Deck FAILED:\n");
+call    0 never executed
+        -:   90:	}
+        -:   91:
+        -:   92:	//Test to ensure the proper pile was impacted
+        1:   93:	if (p1Deck == testGame.deckCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   94:	{
+        1:   95:		printf("TEST Correct Deck PASSED:\n");
+call    0 returned 100%
+        -:   96:	}
+        -:   97:
+        -:   98:	else
+        -:   99:	{
+    #####:  100:		printf("TEST Correct Deck FAILED:\n");
+call    0 never executed
+        -:  101:	}
+        -:  102:
+        -:  103:	// Test gain card to hand
+        1:  104:	gainCard(copper, &testGame, 2, 0);
+call    0 returned 100%
+        1:  105:	if (p0Hand == testGame.handCount[0] - 1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  106:	{
+        1:  107:		printf("TEST Player 0 Hand PASSED:\n");
+call    0 returned 100%
+        -:  108:	}
+        -:  109:
+        -:  110:	else
+        -:  111:	{
+    #####:  112:		printf("TEST Player 0 Hand FAILED:\n");
+call    0 never executed
+        -:  113:	}
+        -:  114:
+        -:  115:	//Test to ensure the proper pile was impacted
+        1:  116:	if (p1Hand == testGame.handCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  117:	{
+        1:  118:		printf("TEST Correct Hand PASSED:\n");
+call    0 returned 100%
+        -:  119:	}
+        -:  120:
+        -:  121:	else
+        -:  122:	{
+    #####:  123:		printf("TEST Correct Hand FAILED:\n");
+call    0 never executed
+        -:  124:	}
+        -:  125:
+        -:  126:	//Test depleted supply 
+        1:  127:	testGame.supplyCount[copper] = 0;
+        1:  128:	emptySupply = gainCard(copper, &testGame, 2, 0);
+call    0 returned 100%
+        -:  129:
+        1:  130:	if (emptySupply == -1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  131:	{
+        1:  132:		printf("TEST Empty Supply PASSED:\n");
+call    0 returned 100%
+        -:  133:	}
+        -:  134:
+        -:  135:	else
+        -:  136:	{
+    #####:  137:		printf("TEST Empty Supply FAILED:\n");
+call    0 never executed
+        -:  138:	}
+        -:  139:
+        1:  140:    return 0;
+        -:  141:}

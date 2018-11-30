@@ -1,0 +1,224 @@
+        -:    0:Source:cardtest4.c
+        -:    0:Graph:cardtest4.gcno
+        -:    0:Data:cardtest4.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * cardtest4.c
+        -:    3: *
+        -:    4: 
+        -:    5: */
+        -:    6:
+        -:    7:/*
+        -:    8: * Include the following lines in your makefile:
+        -:    9: *
+        -:   10: * cardtest4: cardtest4.c dominion.o rngs.o
+        -:   11: *      gcc -o cardtest1 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
+        -:   12: */
+        -:   13:
+        -:   14:
+        -:   15:#include "dominion.h"
+        -:   16:#include "dominion_helpers.h"
+        -:   17:#include <string.h>
+        -:   18:#include <stdio.h>
+        -:   19:#include <assert.h>
+        -:   20:#include "rngs.h"
+        -:   21:#include <stdlib.h>
+        -:   22:
+        -:   23:#define TESTCARD "steward"
+        -:   24:
+function main called 1 returned 100% blocks executed 74%
+        1:   25:int main() {
+        -:   26:	//initilization variables from example
+        -:   27:	int i, testResult, startCard, endCard;
+        1:   28:	int seed = 1000;
+        1:   29:	int numPlayer = 2;
+        1:   30:	int handPos = 0, choice1 = 0, altChoice1 = 1, choice2 = 0, choice3 = 0, bonus = 0, kingdomChange = 0;
+        -:   31:	struct gameState testGame, testGameDis, testGameStart;
+        1:   32:	int k[10] = { adventurer, embargo, village, minion, mine, cutpurse,
+        -:   33:		sea_hag, tribute, smithy, council_room };
+        -:   34:
+        -:   35:	// initialize a game state and player cards
+        1:   36:	memset(&testGame, 23, sizeof(struct gameState));   // clear the game state
+        1:   37:	memset(&testGameStart, 23, sizeof(struct gameState));   // clear the game state
+        1:   38:	memset(&testGameDis, 23, sizeof(struct gameState));   // clear the game state
+        1:   39:	initializeGame(numPlayer, k, seed, &testGame);
+call    0 returned 100%
+        1:   40:	memcpy(&testGameStart, &testGame, sizeof(struct gameState)); //backup state for comparison
+        1:   41:	memcpy(&testGameDis, &testGame, sizeof(struct gameState)); //backup state for comparison
+        -:   42:
+        1:   43:	cardEffect(salvager, choice1, choice2, choice3, &testGame, handPos, &bonus);
+call    0 returned 100%
+        1:   44:	cardEffect(salvager, altChoice1, choice2, choice3, &testGameDis, handPos, &bonus);
+call    0 returned 100%
+        -:   45:
+        1:   46:	printf("TESTING salvager:\n");
+call    0 returned 100%
+        -:   47:
+        -:   48:	// Test that 1 buy was added
+        1:   49:	if (testGameStart.numBuys + 1 == testGame.numBuys)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   50:	{
+        1:   51:		printf("TEST Player 0 Buys +1 PASSED:\n");
+call    0 returned 100%
+        -:   52:	}
+        -:   53:	else
+        -:   54:	{
+    #####:   55:		printf("TEST Player 0 Buys +1 FAILED:\n");
+call    0 never executed
+        -:   56:	}
+        -:   57:
+        -:   58:	// Test that coins were added 
+        1:   59:	if (testGameStart.coins + getCost(handCard(altChoice1, &testGameStart)) == testGameDis.coins)
+call    0 returned 100%
+call    1 returned 100%
+branch  2 taken 100% (fallthrough)
+branch  3 taken 0%
+        -:   60:	{
+        1:   61:		printf("TEST Player 0 coins added PASSED:\n");
+call    0 returned 100%
+        -:   62:	}
+        -:   63:	else
+        -:   64:	{
+    #####:   65:		printf("TEST Player 0 coins added FAILED:\n");
+call    0 never executed
+        -:   66:	} 
+        -:   67:
+        -:   68:	// Test that card was Played
+        1:   69:	if (testGameStart.handCount[0] == testGameDis.handCount[0] + 2)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   70:	{
+        1:   71:		printf("TEST Player 0 Discard PASSED:\n");
+call    0 returned 100%
+        -:   72:	}
+        -:   73:	else
+        -:   74:	{
+    #####:   75:		printf("TEST Player 0 Discard FAILED:\n");
+call    0 never executed
+        -:   76:	}
+        -:   77:
+        -:   78:	// Test that card was Played
+        1:   79:	if (testGameStart.playedCardCount + 1 == testGame.playedCardCount)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   80:	{
+        1:   81:		printf("TEST Player 0 salvager Played PASSED:\n");
+call    0 returned 100%
+        -:   82:	}
+        -:   83:	else
+        -:   84:	{
+    #####:   85:		printf("TEST Player 0 salvager Played FAILED:\n");
+call    0 never executed
+        -:   86:	}
+        -:   87:
+        -:   88:	//Check Player 1 for change
+        1:   89:	if (testGameStart.handCount[1] == testGame.handCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   90:	{
+        1:   91:		printf("TEST Player 1 Hand PASSED:\n");
+call    0 returned 100%
+        -:   92:	}
+        -:   93:	else
+        -:   94:	{
+    #####:   95:		printf("TEST Player 1 Hand FAILED:\n");
+call    0 never executed
+        -:   96:	}
+        -:   97:
+        1:   98:	if (testGameStart.deckCount[1] == testGame.deckCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   99:	{
+        1:  100:		printf("TEST Player 1 Deck PASSED:\n");
+call    0 returned 100%
+        -:  101:	}
+        -:  102:	else
+        -:  103:	{
+    #####:  104:		printf("TEST Player 1 Deck FAILED:\n");
+call    0 never executed
+        -:  105:	}
+        -:  106:
+        1:  107:	if (testGameStart.discardCount[1] == testGame.discardCount[1])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  108:	{
+        1:  109:		printf("TEST Player 1 Discard PASSED:\n");
+call    0 returned 100%
+        -:  110:	}
+        -:  111:	else
+        -:  112:	{
+    #####:  113:		printf("TEST Player 1 Discard FAILED:\n");
+call    0 never executed
+        -:  114:	}
+        -:  115:
+        -:  116:	// Check Victory and Kingdom Piles
+        1:  117:	if (testGameStart.supplyCount[estate] == testGame.supplyCount[estate])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  118:	{
+        1:  119:		printf("TEST Estate Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  120:	}
+        -:  121:	else
+        -:  122:	{
+    #####:  123:		printf("TEST Estate Unchanged FAILED:\n");
+call    0 never executed
+        -:  124:	}
+        -:  125:
+        1:  126:	if (testGameStart.supplyCount[duchy] == testGame.supplyCount[duchy])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  127:	{
+        1:  128:		printf("TEST Duchy Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  129:	}
+        -:  130:	else
+        -:  131:	{
+    #####:  132:		printf("TEST Duchy Unchanged FAILED:\n");
+call    0 never executed
+        -:  133:	}
+        -:  134:
+        1:  135:	if (testGameStart.supplyCount[province] == testGame.supplyCount[province])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  136:	{
+        1:  137:		printf("TEST Province Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  138:	}
+        -:  139:	else
+        -:  140:	{
+    #####:  141:		printf("TEST Province Unchanged FAILED:\n");
+call    0 never executed
+        -:  142:	}
+        -:  143:
+       11:  144:	for (i = 0; i < 10; i++)
+branch  0 taken 91%
+branch  1 taken 9% (fallthrough)
+        -:  145:	{
+       10:  146:		if (testGameStart.supplyCount[k[i]] != testGame.supplyCount[k[i]])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:  147:		{
+    #####:  148:			kingdomChange++;
+        -:  149:		}
+        -:  150:	}
+        -:  151:
+        1:  152:	if (kingdomChange == 0)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:  153:	{
+        1:  154:		printf("TEST Kingdom Unchanged PASSED:\n");
+call    0 returned 100%
+        -:  155:	}
+        -:  156:	else
+        -:  157:	{
+    #####:  158:		printf("TEST Kingdom Unchanged FAILED:\n");
+call    0 never executed
+        -:  159:	}
+        -:  160:
+        1:  161:	return 0;
+        -:  162:}
+        -:  163:
+        -:  164:

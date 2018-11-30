@@ -1,0 +1,193 @@
+Result for running Unit tests:
+unittest1.c:
+TESTING shuffle():
+TEST Player 0 empty deck PASSED:
+TEST Player 1 empty deck PASSED:
+TEST Player 0 full deck crash PASSED:
+TEST Player 1 full deck crash PASSED:
+TEST Player 0 Shuffle full PASSED:
+TEST Player 1 Accidental Shuffle PASSED:
+File 'unittest1.c'
+Lines executed:87.10% of 31
+Branches executed:100.00% of 18
+Taken at least once:66.67% of 18
+Calls executed:69.23% of 13
+Creating 'unittest1.c.gcov'
+
+File 'dominion.c'
+Lines executed:16.13% of 564
+Branches executed:15.90% of 415
+Taken at least once:13.49% of 415
+Calls executed:7.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest2.c:
+TESTING gainCard():
+TEST Player 0 Discard PASSED:
+TEST Correct Discard PASSED:
+TEST Correct Supply Reduced PASSED:
+TEST Player 0 Deck PASSED:
+TEST Correct Deck PASSED:
+TEST Player 0 Hand PASSED:
+TEST Correct Hand PASSED:
+TEST Empty Supply PASSED:
+File 'unittest2.c'
+Lines executed:82.22% of 45
+Branches executed:100.00% of 16
+Taken at least once:50.00% of 16
+Calls executed:63.64% of 22
+Creating 'unittest2.c.gcov'
+
+File 'dominion.c'
+Lines executed:18.44% of 564
+Branches executed:17.35% of 415
+Taken at least once:14.46% of 415
+Calls executed:8.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest3.c:
+TESTING fullDeckCount():
+TEST Player 0 Full Pile Count PASSED :
+TEST Player 1 Empty Pile Count PASSED :
+TEST Player 0 Deck Only Count PASSED :
+TEST Player 0 Hand Only Count PASSED :
+TEST Player 0 Discard Only Count PASSED :
+File 'unittest3.c'
+Lines executed:91.53% of 59
+Branches executed:100.00% of 34
+Taken at least once:85.29% of 34
+Calls executed:70.59% of 17
+Creating 'unittest3.c.gcov'
+
+File 'dominion.c'
+Lines executed:17.38% of 564
+Branches executed:18.80% of 415
+Taken at least once:15.90% of 415
+Calls executed:7.00% of 100
+Creating 'dominion.c.gcov'
+
+unittest4.c:
+TESTING isGameOver():
+TEST New Game PASSED:
+TEST Province Depleated PASSED:
+TEST One Depleated Pile PASSED:
+TEST Two Depleated Piles PASSED:
+TEST Three Depleated Piles PASSED:
+File 'unittest4.c'
+Lines executed:85.29% of 34
+Branches executed:100.00% of 10
+Taken at least once:50.00% of 10
+Calls executed:70.59% of 17
+Creating 'unittest4.c.gcov'
+
+File 'dominion.c'
+Lines executed:17.55% of 564
+Branches executed:17.83% of 415
+Taken at least once:14.94% of 415
+Calls executed:7.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest1.c:
+TESTING adventurer:
+TEST Player 0 Draw Two Cards PASSED:
+TEST Player 0 Draw Two Treasure PASSED:
+TEST Player 1 Hand PASSED:
+TEST Player 1 Deck PASSED:
+TEST Player 1 Discard PASSED:
+TEST Estate Unchanged PASSED:
+TEST Duchy Unchanged PASSED:
+TEST Province Unchanged PASSED:
+TEST Kingdom Unchanged PASSED:
+File 'cardtest1.c'
+Lines executed:80.00% of 50
+Branches executed:100.00% of 38
+Taken at least once:63.16% of 38
+Calls executed:57.14% of 21
+Creating 'cardtest1.c.gcov'
+
+File 'dominion.c'
+Lines executed:19.15% of 564
+Branches executed:22.89% of 415
+Taken at least once:13.98% of 415
+Calls executed:11.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest2.c:
+TESTING smithy:
+TEST Player 0 Draw Two Cards FAILED:
+TEST Player 0 Draw 3 From Own Deck FAILED:
+TEST Player 0 Smithy Discarded PASSED:
+TEST Player 1 Hand PASSED:
+TEST Player 1 Deck PASSED:
+TEST Player 1 Discard PASSED:
+TEST Estate Unchanged PASSED:
+TEST Duchy Unchanged PASSED:
+TEST Province Unchanged PASSED:
+TEST Kingdom Unchanged PASSED:
+File 'cardtest2.c'
+Lines executed:75.56% of 45
+Branches executed:100.00% of 24
+Taken at least once:54.17% of 24
+Calls executed:56.52% of 23
+Creating 'cardtest2.c.gcov'
+
+File 'dominion.c'
+Lines executed:20.21% of 564
+Branches executed:22.89% of 415
+Taken at least once:13.98% of 415
+Calls executed:12.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest3.c:
+TESTING great_hall:
+TEST Player 0 Draw One Cards PASSED:
+TEST Player 0 +1 Action PASSED:
+TEST Player 0 great_hall Played PASSED:
+TEST Player 1 Hand PASSED:
+TEST Player 1 Deck PASSED:
+TEST Player 1 Discard PASSED:
+TEST Estate Unchanged PASSED:
+TEST Duchy Unchanged PASSED:
+TEST Province Unchanged PASSED:
+TEST Kingdom Unchanged PASSED:
+File 'cardtest3.c'
+Lines executed:75.56% of 45
+Branches executed:100.00% of 24
+Taken at least once:54.17% of 24
+Calls executed:56.52% of 23
+Creating 'cardtest3.c.gcov'
+
+File 'dominion.c'
+Lines executed:19.50% of 564
+Branches executed:22.41% of 415
+Taken at least once:13.49% of 415
+Calls executed:10.00% of 100
+Creating 'dominion.c.gcov'
+
+cardtest4.c:
+TESTING salvager:
+TEST Player 0 Buys +1 PASSED:
+TEST Player 0 coins added PASSED:
+TEST Player 0 Discard PASSED:
+TEST Player 0 salvager Played PASSED:
+TEST Player 1 Hand PASSED:
+TEST Player 1 Deck PASSED:
+TEST Player 1 Discard PASSED:
+TEST Estate Unchanged PASSED:
+TEST Duchy Unchanged PASSED:
+TEST Province Unchanged PASSED:
+TEST Kingdom Unchanged PASSED:
+File 'cardtest4.c'
+Lines executed:76.47% of 51
+Branches executed:100.00% of 26
+Taken at least once:53.85% of 26
+Calls executed:60.71% of 28
+Creating 'cardtest4.c.gcov'
+
+File 'dominion.c'
+Lines executed:20.92% of 564
+Branches executed:29.64% of 415
+Taken at least once:14.46% of 415
+Calls executed:13.00% of 100
+Creating 'dominion.c.gcov'
+
